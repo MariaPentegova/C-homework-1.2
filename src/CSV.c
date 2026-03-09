@@ -131,15 +131,15 @@ void print_line(FILE *out, int * widths, int cols, char const * left, char const
     fputs(left, out);
     for (int i=0; i<cols; ++i) {
         for (int j=0; j< widths[i]+2; ++j) {
-            fputc('=', *mid== '=' || *mid=='-' ? *mid : '-');
-            }
+            fputc('=', ((*mid == '=' || *mid == '-') ? *mid : '-'));
+        }
         if (i<cols-1) {
             fputs(mid, out);
-            }
         }
+    }
     fputs(right, out);
     fputc('\n', out);
-    }
+}
 
 void print_table(Table *table, const char *filename) {
     FILE *out = fopen(filename, "w");
