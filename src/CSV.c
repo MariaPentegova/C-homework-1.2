@@ -155,8 +155,8 @@ void print_table(Table *table, const char *filename) {
     print_line(out, w, c, "+", "=", "+");
     // заголовки 
     for (int col=0; col<c; ++col) {
-        printf(out, "| %-*s ", w[col], table->data[0][col]);
-        }
+        fprintf(out, "| %-*s ", w[col], table->data[0][col]);
+    }
     fputs("|\n", out);
     // разделитель
     print_line(out, w, c, "+", "=", "+");
@@ -165,22 +165,19 @@ void print_table(Table *table, const char *filename) {
         for (int col=0; col<c; ++col) {
             if (table->is_numeric[col]) {
                 // выравнивание вправо
-                printf(out, "| %*s ", w[col], table->data[row][col]);
+                fprintf(out, "| %*s ", w[col], table->data[row][col]);
                 } 
             else {
                 // влево
-                printf(out, "| %-*s ", w[col], table->data[row][col]);
+                fprintf(out, "| %-*s ", w[col], table->data[row][col]);
                 }
             }
         fputs("|\n", out);
         // ниже каждой строки — разделитель
-        if (row == table->rows - 1 || 1) { 
-            print_line(out, w, c, "+", "-", "+");
-            }
-        }
-    fclose(out);
+        print_line(out, w, c, "+", "-", "+");
     }
-
+    fclose(out);
+}
 void free_table(Table *table) {
     for (int row=0; row<table->rows; ++row) {
         for (int col=0; col<table->cols; ++col) {
