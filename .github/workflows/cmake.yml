@@ -1,0 +1,19 @@
+name: CMake Build
+
+on: [push, pull_request] # Запускать при пуше и PR
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Используем Linux сервер GitHub
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4 # Скачиваем ваш код
+
+    - name: Configure CMake
+      # Настраиваем проект (создаем папку build)
+      run: cmake -B build -S .
+
+    - name: Build
+      # Запускаем компиляцию
+      run: cmake --build build
