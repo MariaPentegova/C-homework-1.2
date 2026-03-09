@@ -141,7 +141,6 @@ void print_line(FILE *out, int * widths, int cols, char const * left, char const
     fputc('\n', out);
     }
 
- //после read_csv я решила print_table сделать типа void, а не int(стилистика ведь этим не нарушется?)
 void print_table(Table *table, const char *filename) {
     FILE *out = fopen(filename, "w");
     if (!out) { 
