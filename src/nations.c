@@ -9,7 +9,9 @@ typedef struct {
 
 int main() {
     int n, m, k;
-    if (scanf("%d %d", &n, &m) != 2) return 1;
+    if (scanf("%d %d", &n, &m) != 2) {
+        return 1;
+    }
 
     Edge *edges = malloc(m * sizeof(Edge));
     for (int i = 0; i < m; i++) {
@@ -20,7 +22,9 @@ int main() {
     int *capitals = malloc(k * sizeof(int));
     int *owner = malloc((n + 1) * sizeof(int)); // 0 - свободен, 1..k - номер гос-ва
 
-    for (int i = 1; i <= n; i++) owner[i] = 0;
+    for (int i = 1; i <= n; i++){
+        owner[i] = 0;
+    }
 
     for (int i = 0; i < k; i++) {
         scanf("%d", &capitals[i]);
@@ -31,7 +35,9 @@ int main() {
     while (assigned < n) {
         // Проходим по очереди по каждому государству
         for (int state = 1; state <= k; state++) {
-            if (assigned >= n) break;
+            if (assigned >= n) {
+                break;
+            }
 
             int min_dist = INF;
             int best_city = -1;
@@ -44,11 +50,16 @@ int main() {
 
                 // Если u в государстве, а v свободен
                 if (owner[u] == state && owner[v] == 0) {
-                    if (len < min_dist) { min_dist = len; best_city = v; }
+                    if (len < min_dist) { 
+                        min_dist = len; 
+                        best_city = v; 
+                    }
                 }
                 // Если v в государстве, а u свободен
                 if (owner[v] == state && owner[u] == 0) {
-                    if (len < min_dist) { min_dist = len; best_city = u; }
+                    if (len < min_dist) { 
+                        min_dist = len; best_city = u; 
+                    }
                 }
             }
 
@@ -63,11 +74,16 @@ int main() {
     for (int state = 1; state <= k; state++) {
         printf("Государство %d: ", state);
         for (int i = 1; i <= n; i++) {
-            if (owner[i] == state) printf("%d ", i);
+            if (owner[i] == state) {
+                printf("%d ", i);
+            }
         }
         printf("\n");
     }
 
-    free(edges); free(capitals); free(owner);
+    free(edges); 
+    free(capitals); 
+    free(owner);
+    
     return 0;
 }
