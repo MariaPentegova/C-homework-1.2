@@ -4,10 +4,10 @@
 
 // Структура узла дерева
 typedef struct Node {
-    char code[10];       // Код (SVO)
-    char name[128];      // Название (Sheremetyevo...)
-    struct Node *left;   // Левый потомок
-    struct Node *right;  // Правый потомок
+    char code[10];       
+    char name[128];      
+    struct Node *left;   
+    struct Node *right; 
 } Node;
 
 // Функция создания нового узла
@@ -21,20 +21,30 @@ Node* create_node(char* code, char* name) {
 
 // Добавление в дерево (рекурсивно)
 Node* insert(Node* root, char* code, char* name) {
-    if (root == NULL) return create_node(code, name);
+    if (root == NULL){
+        return create_node(code, name);
+    }
 
     int cmp = strcmp(code, root->code);
-    if (cmp < 0) root->left = insert(root->left, code, name);
-    else if (cmp > 0) root->right = insert(root->right, code, name);
+    if (cmp < 0) {
+        root->left = insert(root->left, code, name);
+    }
+    else if (cmp > 0) {
+        root->right = insert(root->right, code, name);
+    }
     
     return root;
 }
 
 // Поиск по коду
 Node* find(Node* root, char* code) {
-    if (root == NULL || strcmp(root->code, code) == 0) return root;
+    if (root == NULL || strcmp(root->code, code) == 0) {
+        return root;
+    }
     
-    if (strcmp(code, root->code) < 0) return find(root->left, code);
+    if (strcmp(code, root->code) < 0) {
+        return find(root->left, code);
+    }
     return find(root->right, code);
 }
 
@@ -48,13 +58,15 @@ void save_to_file(Node* root, FILE* f) {
 }
 
 int main(int argc, char** argv) {
-    if (argc < 2) { printf("Использование: ./aerosoft airports.txt\n"); return 1; }
+    if (argc < 2) { 
+        printf("Использование: ./aerosoft airports.txt\n"); 
+        return 1; 
+    }
 
     Node* root = NULL;
     char line[256], cmd[20], arg[256];
     int count = 0;
 
-    // 1. Загрузка из файла
     FILE* f = fopen(argv[1], "r");
     if (f) {
         while (fgets(line, sizeof(line), f)) {
@@ -69,7 +81,6 @@ int main(int argc, char** argv) {
     }
     printf("Загружено %d аэропортов.\n", count);
 
-    // 2. Основной цикл команд
     while (1) {
         printf("\n> ");
         scanf("%s", cmd);
@@ -77,10 +88,15 @@ int main(int argc, char** argv) {
         if (strcmp(cmd, "find") == 0) {
             scanf("%s", arg);
             Node* res = find(root, arg);
-            if (res) printf("%s -> %s\n", res->code, res->name);
-            else printf("Не найдено.\n");
+            if (res) {
+                printf("%s -> %s\n", res->code, res->name);
+            }
+            else {
+                printf("Не найдено.\n");
+            }
 
-        } else if (strcmp(cmd, "add") == 0) {
+        } 
+        else if (strcmp(cmd, "add") == 0) {
             scanf(" %[^\n]", arg); // Считать строку с пробелами
             char *c = strtok(arg, ":");
             char *n = strtok(NULL, "");
@@ -89,13 +105,15 @@ int main(int argc, char** argv) {
                 printf("Добавлено.\n");
             }
 
-        } else if (strcmp(cmd, "save") == 0) {
+        } 
+        else if (strcmp(cmd, "save") == 0) {
             f = fopen(argv[1], "w");
             save_to_file(root, f);
             fclose(f);
             printf("Сохранено.\n");
 
-        } else if (strcmp(cmd, "quit") == 0) {
+        } 
+        else if (strcmp(cmd, "quit") == 0) {
             break;
         }
     }
