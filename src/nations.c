@@ -33,7 +33,7 @@ int main() {
 
     int assigned = k;
     while (assigned < n) {
-        // Проходим по очереди по каждому государству
+        // state-номер государства
         for (int state = 1; state <= k; state++) {
             if (assigned >= n) {
                 break;
