@@ -19,7 +19,7 @@ Node* create_node(char* code, char* name) {
     return newNode;
 }
 
-// Добавление в дерево (рекурсивно)
+// Добавление в дерево
 Node* insert(Node* root, char* code, char* name) {
     if (root == NULL){
         return create_node(code, name);
