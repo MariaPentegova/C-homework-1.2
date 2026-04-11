@@ -48,7 +48,7 @@ Node* find(Node* root, char* code) {
     return find(root->right, code);
 }
 
-// Сохранение дерева в файл (обход In-order)
+// Сохранение дерева в файл 
 void save_to_file(Node* root, FILE* f) {
     if (root != NULL) {
         save_to_file(root->left, f);
