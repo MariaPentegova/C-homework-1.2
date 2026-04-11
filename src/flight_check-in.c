@@ -24,8 +24,8 @@ Node* insert(Node* root, char* code, char* name) {
     if (root == NULL){
         return create_node(code, name);
     }
-
-    int cmp = strcmp(code, root->code);
+    //сравнение кодов по алфавиту
+    int cmp = strcmp(code, root->code); 
     if (cmp < 0) {
         root->left = insert(root->left, code, name);
     }
