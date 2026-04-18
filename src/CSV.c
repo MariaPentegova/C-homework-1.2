@@ -49,7 +49,8 @@ int main() {
             fprintf(out, "+");
             }
         fprintf(out, "\n");
-
+        
+        //Вывод содержимого ячеек таблицы + выравнивание
         for (int c = 0; c < cols; c++) {
             if (atof(table[r][c]) != 0 || strcmp(table[r][c], "0") == 0) {
                 fprintf(out, "| %*s ", max_w, table[r][c]);
