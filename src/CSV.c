@@ -72,5 +72,11 @@ int main() {
 
     fclose(out);
     printf("Таблица готова в output.txt!\n");
+
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            free(table[r][c]);
+        }
+    }
     return 0;
 }
