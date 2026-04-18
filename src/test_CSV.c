@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include "main.c"
 
 int main(void); 
 
@@ -27,7 +28,7 @@ void test_simple_csv() {
     fprintf(f, "Name,Value\nAlice,10\nBob,20\n");
     fclose(f);
 
-    main(); // вызов вашей программы
+    main(); 
 
     char *output = read_file("output.txt");
     const char *expected =
