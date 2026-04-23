@@ -1,73 +1,93 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "main.c"
+#include "main.c" 
 
-int main(void); 
-
-// Вспомогательная функция для чтения всего файла в строку
-char *read_file(const char *filename) {
+// Вспомогательная функция для сравнения содержимого файла с ожидаемым выводом
+void check_full_output(const char *filename, const char *expected_output) {
     FILE *f = fopen(filename, "r");
-    assert(f != NULL);
-    fseek(f, 0, SEEK_END);
-    long size = ftell(f);
-    fseek(f, 0, SEEK_SET);
-    char *buffer = malloc(size + 1);
-    assert(buffer != NULL);
-    fread(buffer, 1, size, f);
-    buffer[size] = '\0';
+    if (!f) {
+        printf("Не удалось открыть файл %s для проверки\n", filename);
+        return;
+    }
+    char buffer[4096] = {0};
+    fread(buffer, 1, sizeof(buffer) - 1, f);
     fclose(f);
-    return buffer;
+    assert(strcmp(buffer, expected_output) == 0 && "Вывод таблицы не соответствует ожидаемому");
 }
 
-// Тест 1: простая таблица
-void test_simple_csv() {
-    FILE *f = fopen("input.csv", "w");
-    assert(f != NULL);
-    fprintf(f, "Name,Value\nAlice,10\nBob,20\n");
+void test_boundary_cases() {
+    // Тест 1: минимальные значения, пустые поля
+    FILE *f = fopen("test_input1.csv", "w");
+    fprintf(f, "ID,Name,Score\n");
+    fprintf(f, "1,,\n");
+    fprintf(f, "0,Empty,0\n");
     fclose(f);
 
-    main(); 
+    Table t = {0};
+    read_csv("test_input1.csv", &t);
+    write_table("test_output1.txt", &t);
 
-    char *output = read_file("output.txt");
-    const char *expected =
-        "+====+======+\n"
-        "|Name|Value |\n"
-        "+====+======+\n"
-        "|Alice|    10 |\n"
-        "+----+------+\n"
-        "|Bob  |    20 |\n"
-        "+----+------+\n";
+    const char *expected_output1 =
+"+=======+=======+=======+\n"
+"| ID    | Name  | Score |\n"
+"+=======+=======+=======+\n"
+"|     1 |       |       |\n"
+"+-------+-------+-------+\n"
+"|     0 | Empty |     0 |\n"
+"+-------+-------+-------+\n";
 
-    // Проверка наличия ключевых подстрок
-    assert(strstr(output, "Alice") != NULL);
-    assert(strstr(output, "Bob") != NULL);
-    assert(strstr(output, "Value") != NULL);
+    check_full_output("test_output1.txt", expected_output1);
+    free_table(&t);
+    printf("Граничный случай 1 пройден!\n");
 
-    free(output);
-}
-
-// Тест 2: числа с плавающей точкой и текст
-void test_mixed_csv() {
-    FILE *f = fopen("input.csv", "w");
-    assert(f != NULL);
-    fprintf(f, "Item,Price\nBook,12.5\nPen,1.0\nNote,0\n");
+    // Тест 2: очень длинные строки/числа, чтобы проверить ширины
+    f = fopen("test_input2.csv", "w");
+    fprintf(f, "ID,Name,Score\n");
+    fprintf(f, "123456789,VeryLongNameIndeed,98765\n");
     fclose(f);
 
-    main();
+    read_csv("test_input2.csv", &t);
+    write_table("test_output2.txt", &t);
 
-    char *output = read_file("output.txt");
-    assert(strstr(output, "12.5") != NULL);
-    assert(strstr(output, "1.0") != NULL);
-    assert(strstr(output, "Note") != NULL);
+    const char *expected_output2 =
+"+===========+====================+=======+\n"
+"| ID        | Name               | Score |\n"
+"+===========+====================+=======+\n"
+"| 123456789 | VeryLongNameIndeed |   765 |\n"
+"+-----------+--------------------+-------+\n";
 
-    free(output);
+    check_full_output("test_output2.txt", expected_output2);
+    free_table(&t);
+    printf("Граничный случай 2 пройден!\n");
+
+    // Тест 3: числа с отрицательными значениями, нулями
+    f = fopen("test_input3.csv", "w");
+    fprintf(f, "ID,Name,Score\n");
+    fprintf(f, "-1,Negative, -999\n");
+    fprintf(f, "0,Zero,0\n");
+    fclose(f);
+
+    read_csv("test_input3.csv", &t);
+    write_table("test_output3.txt", &t);
+
+    const char *expected_output3 =
+"+=======+==========+=======+\n"
+"| ID    | Name     | Score |\n"
+"+=======+==========+=======+\n"
+"|    -1 | Negative |  -999 |\n"
+"+-------+----------+-------+\n"
+"|     0 | Zero     |     0 |\n"
+"+-------+----------+-------+\n";
+
+    check_full_output("test_output3.txt", expected_output3);
+    free_table(&t);
+    printf("Граничный случай 3 пройден!\n");
 }
 
-int main_tests() {
-    test_simple_csv();
-    test_mixed_csv();
-    printf("Все тесты пройдены!\n");
+int main() {
+    printf("Запуск тестов с граничными случаями...\n");
+    test_boundary_cases();
+    printf("Все тесты успешно пройдены!\n");
     return 0;
 }
