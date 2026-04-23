@@ -6,7 +6,6 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 cmake_policy(SET CMP0074 NEW)
 
-add_executable(CSV src/CSV/main.c)
 add_executable(CSV_tests src/CSV/tests.c)
 add_executable(flight src/flight_check-in/main.c)
 add_executable(nations src/nations/main.c)
