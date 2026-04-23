@@ -113,7 +113,7 @@ void write_table(const char *filename, const Table *t) {
     fclose(out);
 }
 
-int main() {
+/*int main() {
     Table table = {0};
     if (read_csv("input.csv", &table) != 0) {
         return 1; // ошибка чтения
@@ -124,4 +124,4 @@ int main() {
 
     free_table(&table);
     return 0;
-}
+}*/
