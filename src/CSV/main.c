@@ -40,7 +40,7 @@ int read_csv(const char *filename, Table *t) {
 
     while (getline(&line, &line_size, in) != -1) {
         line[strcspn(line, "\r\n")] = 0; // удаление символов переноса строки
-        if (t->rows >= capacity) {
+        if ((size_t)t->rows >= capacity) {
             capacity *= 2;
             t->data = realloc(t->data, capacity * sizeof(char **));
         }
@@ -51,7 +51,7 @@ int read_csv(const char *filename, Table *t) {
         t->data[t->rows] = malloc(col_capacity * sizeof(char *));
         char *token = strtok(line, ",");
         while (token) {
-            if (c >= col_capacity) {
+            if ((size_t)c >= col_capacity) {
                 col_capacity *= 2;
                 t->data[t->rows] = realloc(t->data[t->rows], col_capacity * sizeof(char *));
             }
