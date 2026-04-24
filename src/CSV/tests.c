@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include "main.c" 
+#include "csv.c" 
 
 // Вспомогательная функция для сравнения содержимого файла с ожидаемым выводом
 void check_full_output(const char *filename, const char *expected_output) {
