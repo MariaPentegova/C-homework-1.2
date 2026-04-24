@@ -34,8 +34,7 @@ int read_csv(const char *filename, Table *t) {
     size_t line_size = 0;
     char *line = NULL;
 
-    // Выделение памяти для указателей
-    size_t capacity = 10; // начальная емкость
+    size_t capacity = 10;
     t->data = malloc(capacity * sizeof(char **));
 
     while (getline(&line, &line_size, in) != -1) {
