@@ -4,7 +4,9 @@
 #define INF 1000000000
 
 typedef struct {
-    int u, v, len;
+    int u;
+    int v;
+    int len;
 } Edge;
 
 void read_input(int *n, int *m, Edge **edges, int *k, int **capitals);
@@ -14,14 +16,14 @@ void print_results(int n, int k, int *owner);
 void solve(int n, int m, Edge *edges, int k, int *capitals) {
     int *owner = malloc((n + 1) * sizeof(int));
     for (int i = 1; i <= n; i++) {
-        owner[i] = 0;
+        owner[i] = 0; //номер государства
     }
 
     for (int i = 0; i < k; i++) {
         owner[capitals[i]] = i + 1;
     }
 
-    int assigned = k;
+    int assigned = k; //захвачено только k столиц пока что
     while (assigned < n) {
         for (int state = 1; state <= k; state++) {
             if (assigned >= n) {
