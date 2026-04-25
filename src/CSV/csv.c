@@ -111,16 +111,3 @@ void write_table(const char *filename, const Table *t) {
 
     fclose(out);
 }
-
-/*int main() {
-    Table table = {0};
-    if (read_csv("input.csv", &table) != 0) {
-        return 1; // ошибка чтения
-    }
-
-    write_table("output.txt", &table);
-    printf("Таблица готова в output.txt!\n");
-
-    free_table(&table);
-    return 0;
-}*/
