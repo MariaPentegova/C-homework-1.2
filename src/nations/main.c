@@ -9,8 +9,18 @@ typedef struct {
     int len;
 } Edge;
 
-void read_input(int *n, int *m, Edge **edges, int *k, int **capitals);
-void print_results(int n, int k, int *owner);
+void read_input(int *n, int *m, Edge **edges, int *k, int **capitals) {
+    scanf("%d %d", n, m);
+    *edges = malloc((*m) * sizeof(Edge));
+    for (int i = 0; i < *m; i++) {
+        scanf("%d %d %d", &(*edges)[i].u, &(*edges)[i].v, &(*edges)[i].len);
+    }
+    scanf("%d", k);
+    *capitals = malloc((*k) * sizeof(int));
+    for (int i = 0; i < *k; i++) {
+        scanf("%d", &(*capitals)[i]);
+    }
+}
 
 void solve(int n, int m, Edge *edges, int k, int *capitals) {
     int *owner = malloc((n + 1) * sizeof(int));
@@ -59,19 +69,6 @@ void solve(int n, int m, Edge *edges, int k, int *capitals) {
 
     print_results(n, k, owner);
     free(owner);
-}
-
-void read_input(int *n, int *m, Edge **edges, int *k, int **capitals) {
-    scanf("%d %d", n, m);
-    *edges = malloc((*m) * sizeof(Edge));
-    for (int i = 0; i < *m; i++) {
-        scanf("%d %d %d", &(*edges)[i].u, &(*edges)[i].v, &(*edges)[i].len);
-    }
-    scanf("%d", k);
-    *capitals = malloc((*k) * sizeof(int));
-    for (int i = 0; i < *k; i++) {
-        scanf("%d", &(*capitals)[i]);
-    }
 }
 
 void print_results(int n, int k, int *owner) {
