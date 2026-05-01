@@ -10,7 +10,6 @@ typedef struct {
 } Edge;
 
 void read_input(int *n, int *m, Edge **edges, int *k, int **capitals);
-void process_borders(int n, int m, Edge *edges, int k, int *capitals);
 void print_results(int n, int k, int *owner);
 
 void solve(int n, int m, Edge *edges, int k, int *capitals) {
