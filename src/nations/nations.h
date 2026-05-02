@@ -7,6 +7,4 @@ typedef struct {
     int len;
 } Edge;
 
-void solve(int n, int m, Edge *edges, int k, int *capitals);
-
-#endif // NATIONS_H
+#endif
