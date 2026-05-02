@@ -27,6 +27,11 @@ int main() {
     for (int i = 0; i < k; i++) {
         scanf("%d", &capitals[i]);
     }
+
+    solve(n, m, edges, k, capitals);
+
+    free(edges);
+    free(capitals);
   
     return 0;
 }
